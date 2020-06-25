@@ -1,6 +1,7 @@
 package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventCategoryRepository;
+import org.launchcode.codingevents.models.Event;
 import org.launchcode.codingevents.models.EventCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,22 +28,21 @@ private EventCategoryRepository eventCategoryRepository;
         return "eventCategories/index";
     }
 
-    @GetMapping("/create")
+    @GetMapping("create")
     public String renderCreateEventCategoryForm(Model model, @ModelAttribute EventCategory newEventCategory) {
         model.addAttribute("title", "Create Category");
-        model.addAttribute("EventCategory", newEventCategory);
+        model.addAttribute(new EventCategory());
         return "eventCategories/create";
     }
 
-    @PostMapping
-    public String processCreateEventCategoryForm(Model model, @ModelAttribute @Valid EventCategory newEventCategory, Errors errors) {
-        model.addAttribute("title", "Create Category");
-        model.addAttribute("EventCategory", "newEventCategory");
-
+    @PostMapping("create")
+    public String processCreateEventCategoryForm(@ModelAttribute @Valid EventCategory newEventCategory, Errors errors, Model model) {
         if(errors.hasErrors()) {
+            model.addAttribute("title", "Create Category");
 
             return "eventCategories/create";
         }
+        eventCategoryRepository.save(newEventCategory);
 
         return "redirect:";
 

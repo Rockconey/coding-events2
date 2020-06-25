@@ -15,6 +15,10 @@ public class EventCategory {
     @NotBlank(message = "Field cannot be left blank.")
     private String name;
 
+    public EventCategory(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
     public EventCategory() {}
 
     public int getId() {
