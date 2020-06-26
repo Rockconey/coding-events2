@@ -50,19 +50,6 @@ public class EventController {
 
     }
 
-//    @PostMapping("create")
-//    public String processCreateEventForm(@ModelAttribute @Valid Event newEvent,
-//                                         Errors errors, Model model) {
-//        if(errors.hasErrors()) {
-//            model.addAttribute("title", "Create Event");
-//            return "events/create";
-//        }
-//
-//
-//        eventRepository.save(newEvent);
-//        return "redirect:";
-//    }
-
     @GetMapping("delete")
     public String displayDeleteEventForm(Model model) {
         model.addAttribute("title", "Delete Events");
