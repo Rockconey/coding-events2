@@ -2,6 +2,7 @@ package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventRepository;
 import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventCategory;
 import org.launchcode.codingevents.models.EventType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class EventController {
     }
 
     @GetMapping("create")
-    public String displayCreateEventForm(Model model) {
+    public String displayCreateEventForm(@ModelAttribute Event newEvent, Model model) {
         model.addAttribute("title", "Create Event");
         model.addAttribute(new Event());
         model.addAttribute("types", EventType.values());
@@ -37,16 +38,30 @@ public class EventController {
     }
 
     @PostMapping("create")
-    public String processCreateEventForm(@ModelAttribute @Valid Event newEvent,
-                                         Errors errors, Model model) {
+    public String processCreateEventForm(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Create Event");
-            return "events/create";
-        }
 
+            return "eventCategories/create";
+        }
         eventRepository.save(newEvent);
+
         return "redirect:";
+
     }
+
+//    @PostMapping("create")
+//    public String processCreateEventForm(@ModelAttribute @Valid Event newEvent,
+//                                         Errors errors, Model model) {
+//        if(errors.hasErrors()) {
+//            model.addAttribute("title", "Create Event");
+//            return "events/create";
+//        }
+//
+//
+//        eventRepository.save(newEvent);
+//        return "redirect:";
+//    }
 
     @GetMapping("delete")
     public String displayDeleteEventForm(Model model) {
