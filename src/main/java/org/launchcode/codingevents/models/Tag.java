@@ -1,32 +1,38 @@
 package org.launchcode.codingevents.models;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class EventCategory extends AbstractEntity {
+public class Tag extends AbstractEntity {
 
-    @NotBlank(message = "Field cannot be left blank.")
+    @Size(min = 1, max = 25)
+    @NotBlank(message="Please provide a tag name.")
     private String name;
 
-    @OneToMany(mappedBy = "eventCategory")
-    private final List<Event> events = new ArrayList<>();
-
-    public EventCategory(String name, int id) {
+    public Tag(String name) {
         this.name = name;
     }
-    public EventCategory() {}
 
+    public Tag() {}
 
     public String getName() {
         return name;
     }
 
+    @ManyToMany(mappedBy = "tags")
+    private final List<Event> events = new ArrayList<>();
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDisplayName() {
+        return "#" + name + " ";
     }
 
     public List<Event> getEvents() {
